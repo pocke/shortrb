@@ -35,7 +35,13 @@ module Shortrb
     end
 
     private def on_SCOPE(node)
-      _convert node[2]
+      args =
+        if parent&.type == :ITER && !node[0].empty?
+          "|#{node[0].map(&:to_s).join(',')}|"
+        else
+          ""
+        end
+      args + _convert(node[2])
     end
 
     private def on_CLASS(node)
@@ -69,6 +75,7 @@ module Shortrb
 
     private def on_FCALL(node)
       method_name = node[0]
+      return method_name unless node[1]
       args = _convert node[1]
       if space_necessary_between_method_name_and_args?(method_name.to_s, args)
         "#{method_name} #{args}"
@@ -86,6 +93,10 @@ module Shortrb
       else
         "#{method_name}#{args}"
       end
+    end
+
+    private def on_ITER(node)
+      "#{_convert node[0]}{#{_convert node[1]}}"
     end
 
     private def on_ARRAY(node)

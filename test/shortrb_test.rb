@@ -41,6 +41,11 @@ class AstToStrTest < Minitest::Test
     assert_ast_to_str "x.y@z", "x.y(@z)"
   end
 
+  def test_iter
+    assert_ast_to_str "x{y}", "x { y }"
+    assert_ast_to_str "x{|i|y}", "x { |i| y }"
+  end
+
   # operators
 
   # literals

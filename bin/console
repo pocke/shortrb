@@ -11,4 +11,10 @@ require "shortrb"
 # Pry.start
 
 require "irb"
+
+def t(code)
+  root = RubyVM::AbstractSyntaxTree.parse(code)
+  Shortrb::AstToStr.convert(root)
+end
+
 IRB.start(__FILE__)
