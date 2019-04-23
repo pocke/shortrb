@@ -46,6 +46,11 @@ class AstToStrTest < Minitest::Test
     assert_ast_to_str "x{|i|y}", "x { |i| y }"
   end
 
+  def test_qcall
+    assert_ast_to_str 'x&.y', 'x&.y'
+    assert_ast_to_str 'x&.y z', 'x&.y(z)'
+  end
+
   # operators
 
   def test_op

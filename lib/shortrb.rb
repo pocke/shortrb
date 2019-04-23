@@ -100,13 +100,24 @@ module Shortrb
       "#{_convert node[0]}#{node[1]}#{_convert node[2]}"
     end
 
+    private def on_QCALL(node)
+      method_name = +"#{_convert node[0]}&.#{node[1]}"
+      return method_name unless node[2]
+      args = _convert(node[2])
+      if space_necessary_between_method_name_and_args?(method_name.to_s, args)
+        "#{method_name} #{args}"
+      else
+        "#{method_name}#{args}"
+      end
+    end
+
     private def on_ITER(node)
       "#{_convert node[0]}{#{_convert node[1]}}"
     end
 
     private def on_ARRAY(node)
       res = node.children.compact.map { |child| _convert child }.join(',')
-      if parent.type == :FCALL || parent.type == :CALL || parent.type == :OPCALL
+      if parent.type == :FCALL || parent.type == :CALL || parent.type == :OPCALL || parent.type == :QCALL
         res
       else
         "[#{res}]"
