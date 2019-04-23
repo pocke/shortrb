@@ -82,6 +82,8 @@ class AstToStrTest < Minitest::Test
   def test_string
     assert_ast_to_str '"foo"', "'foo'"
     assert_ast_to_str '"foo"', '"foo"'
+    assert_ast_to_str '?a', "'a'"
+    assert_ast_to_str '" "', "' '"
   end
 
   def test_symbol

@@ -133,7 +133,12 @@ module Shortrb
     end
 
     private def on_STR(node)
-      node.children.first.inspect
+      str = node.children.first
+      if str.size == 1 && str !~ /\s/
+        "?#{str}"
+      else
+        str.inspect
+      end
     end
 
     private def on_LASGN(node)
