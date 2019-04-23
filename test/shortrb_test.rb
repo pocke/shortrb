@@ -48,7 +48,17 @@ class AstToStrTest < Minitest::Test
 
   # operators
 
+  def test_op
+    assert_ast_to_str "a+b", "a + b"
+  end
+
+  # conditions
+
   # literals
+
+  def test_zarray
+    assert_ast_to_str '[]', '[ ]'
+  end
 
   def test_array
     assert_ast_to_str "[x]", "[ x ]"

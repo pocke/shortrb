@@ -95,17 +95,26 @@ module Shortrb
       end
     end
 
+    private def on_OPCALL(node)
+      # TODO: multi args
+      "#{_convert node[0]}#{node[1]}#{_convert node[2]}"
+    end
+
     private def on_ITER(node)
       "#{_convert node[0]}{#{_convert node[1]}}"
     end
 
     private def on_ARRAY(node)
       res = node.children.compact.map { |child| _convert child }.join(',')
-      if parent.type == :FCALL || parent.type == :CALL
+      if parent.type == :FCALL || parent.type == :CALL || parent.type == :OPCALL
         res
       else
         "[#{res}]"
       end
+    end
+
+    private def on_ZARRAY(node)
+      return '[]'
     end
 
     private def on_LIT(node)
